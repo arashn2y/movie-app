@@ -1,6 +1,9 @@
 # Usa immagine Node
 FROM node:20-alpine
 
+// Aggiungere git e bash per la gestione del repository
+RUN apk add --no-cache git bash
+
 # Directory di lavoro
 WORKDIR /app
 
