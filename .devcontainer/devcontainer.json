@@ -1,0 +1,12 @@
+{
+  "name": "Movie App Dev Container",
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "frontend",
+  "workspaceFolder": "/app",
+  "customizations": {
+    "vscode": {
+      "extensions": ["esbenp.prettier-vscode", "dbaeumer.vscode-eslint"]
+    }
+  },
+  "remoteUser": "node"
+}
