@@ -2,10 +2,11 @@ import { useState, useEffect } from "react";
 import { RiLoginCircleLine as LoginIcon } from "react-icons/ri";
 import Button from "./Button";
 import { Link } from "react-router-dom";
-// import Input from "./Input";
+import Card from "./Card";
 
 function Header() {
   const [count, setCount] = useState<number>(0);
+  const [films, setFilms] = useState<any[]>([]);
   // const [value, setValue] = useState("");
 
   const clickHandler = () => {
@@ -16,17 +17,29 @@ function Header() {
   //   setValue(value);
   // };
 
-  setTimeout(() => {
-    console.log("UseEffect was called 2 seconds ago...");
-  }, 2000);
-
   useEffect(() => {
-    if (count === 2) {
-      setTimeout(() => {
-        console.log("UseEffect was called 2 seconds ago...");
-      }, 2000);
-    }
-  }, [count]);
+    const getFilms = async () => {
+      try {
+        const url = "https://my-json-server.typicode.com/horizon-code-academy/fake-movies-api/movies";
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const films = await response.json();
+        setFilms(
+          films.map((film: any) => {
+            return {
+              ...film,
+              id: crypto.randomUUID()
+            };
+          })
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getFilms();
+  }, []);
 
   return (
     <>
@@ -43,11 +56,10 @@ function Header() {
           </Link>
         </span>
       </header>
-      <main className="h-16 flex justify-center items-center">
-        <Button title="count" onClick={clickHandler}>
-          count
-        </Button>
-        <h1>{count} count</h1>
+      <main className="flex justify-center gap-5 flex-wrap items-center mt-6 px-2">
+        {films.map(film => {
+          return <Card key={film.id} title={film.Title} imageUrl={film.Poster} description={film.Year} />;
+        })}
       </main>
     </>
   );
