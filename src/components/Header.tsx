@@ -4,10 +4,22 @@ import Button from "./Button";
 import { Link } from "react-router-dom";
 import Card from "./Card";
 
+interface Icon {
+  id: string;
+  key: string;
+}
+interface Film {
+  id: string;
+  Title: string;
+  Runtime: string;
+  Year: string;
+  Poster?: string;
+  icon: Icon;
+}
+
 function Header() {
   const [count, setCount] = useState<number>(0);
-  const [films, setFilms] = useState<any[]>([]);
-  // const [value, setValue] = useState("");
+  const [films, setFilms] = useState<Film[]>([]);
 
   const clickHandler = () => {
     setCount(count + 1);
@@ -25,9 +37,9 @@ function Header() {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        const films = await response.json();
+        const serverFilms: Film[] = await response.json();
         setFilms(
-          films.map((film: any) => {
+          serverFilms.map(film => {
             return {
               ...film,
               id: crypto.randomUUID()
@@ -40,6 +52,8 @@ function Header() {
     };
     getFilms();
   }, []);
+
+  console.log(films);
 
   return (
     <>

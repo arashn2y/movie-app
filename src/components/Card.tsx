@@ -1,7 +1,7 @@
 interface CardProps {
   title: string;
   description: string;
-  imageUrl: string;
+  imageUrl?: string;
 }
 
 function Card({ title, description, imageUrl }: CardProps) {
