@@ -3,6 +3,7 @@ import { RiLoginCircleLine as LoginIcon } from "react-icons/ri";
 import Button from "./Button";
 import { Link } from "react-router-dom";
 import Card from "./Card";
+import Input from "./Input";
 
 interface Icon {
   id: string;
@@ -20,6 +21,7 @@ interface Film {
 function Header() {
   const [count, setCount] = useState<number>(0);
   const [films, setFilms] = useState<Film[]>([]);
+  const [filterValue, setFilterValue] = useState("");
 
   const clickHandler = () => {
     setCount(count + 1);
@@ -38,8 +40,11 @@ function Header() {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const serverFilms: Film[] = await response.json();
+        const filteredFilms = serverFilms.filter(film => {
+          return film.Title.includes(filterValue);
+        });
         setFilms(
-          serverFilms.map(film => {
+          filteredFilms.map(film => {
             return {
               ...film,
               id: crypto.randomUUID()
@@ -51,14 +56,18 @@ function Header() {
       }
     };
     getFilms();
-  }, []);
-
-  console.log(films);
+  }, [filterValue]);
 
   return (
     <>
       <header className="bg-gray-200 flex justify-between items-center p-4">
         <h1>My Website</h1>
+        <Input
+          value={filterValue}
+          onChange={inputValue => {
+            setFilterValue(inputValue);
+          }}
+        />
         <span className="flex items-center gap-2">
           <Link to="/register" className="hover:text-blue-400">
             Register

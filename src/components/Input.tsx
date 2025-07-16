@@ -1,9 +1,9 @@
 import { type FC, type HTMLInputTypeAttribute } from "react";
 
 type InputProps = {
-  type?: HTMLInputTypeAttribute;
   value: string;
   onChange: (inputValue: string) => void;
+  type?: HTMLInputTypeAttribute;
 };
 
 const Input: FC<InputProps> = (
