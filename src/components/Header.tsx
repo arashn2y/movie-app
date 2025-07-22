@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { RiLoginCircleLine as LoginIcon } from "react-icons/ri";
-import Button from "./Button";
 import { Link } from "react-router-dom";
 import Card from "./Card";
 import Input from "./Input";
@@ -19,17 +18,8 @@ interface Film {
 }
 
 function Header() {
-  const [count, setCount] = useState<number>(0);
   const [films, setFilms] = useState<Film[]>([]);
   const [filterValue, setFilterValue] = useState("");
-
-  const clickHandler = () => {
-    setCount(count + 1);
-  };
-
-  // const changeHandler = (value: string) => {
-  //   setValue(value);
-  // };
 
   useEffect(() => {
     const getFilms = async () => {
@@ -73,9 +63,7 @@ function Header() {
             Register
           </Link>
           <Link to="/login">
-            <Button title="Click me" onClick={clickHandler}>
-              <LoginIcon />
-            </Button>
+            <LoginIcon />
           </Link>
         </span>
       </header>
